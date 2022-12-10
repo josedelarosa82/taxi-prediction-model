@@ -15,3 +15,5 @@ El proyecto se encuentra estructurado de la siguiente manera:
 3- Evidencia codigo.png: en esta imágen se encuentra la evidencia del código que se creó en la máquina EC2 donde corre el modelo.
 
 4- Evidencia ejecución.png: en esta imágen se encuentra la evidencia de la ejecución del modelo con dos datos de prueba.
+
+5- Evidencia endpoint.png: en esta imágen se encuentra la evidencia de la creación del endpoint con el modelo en sagemaker.
