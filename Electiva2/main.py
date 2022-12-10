@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 import json
 
-import joblib
 import boto3
 
 app = Flask(__name__)
@@ -23,8 +22,7 @@ def index():
 
 @app.route('/prediccion<data>')
 def prediccion(data):
-    # Ruta modelo para la prediccion en Local
-    model = joblib.load('model.joblib')
+
 
     formated_data = json.loads(data)
 
