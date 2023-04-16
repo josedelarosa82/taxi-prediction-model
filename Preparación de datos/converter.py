@@ -1,7 +1,7 @@
 import pandas as pd
 
-fichero_unificado = 'SERVICIO_UNIFICADO_2022.csv'
-fichero_parquet = 'SERVICIO_UNIFICADO_2022.parquet.gzip'
+fichero_unificado = 'data/SERVICIO_UNIFICADO_2023.csv'
+fichero_parquet = 'data/SERVICIO_UNIFICADO_2023.parquet.gzip'
 
 print("Iniciando el proceso")
 #Se lee el archivo en pandas
