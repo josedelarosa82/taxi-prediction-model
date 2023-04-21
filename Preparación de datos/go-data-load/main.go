@@ -17,7 +17,7 @@ func main() {
 
 func ProcessFiles() {
 	name_unified := "../data/SERVICIO_UNIFICADO_2023.csv"
-	files := []string{"../data/Enero-2023.csv", "../data/Febrero-2023.csv", "../data/Marzo-Abril-2023.csv"}
+	files := []string{"../data/Octubre-2022.csv", "../data/Noviembre-2022.csv", "../data/Diciembre-2022.csv", "../data/Enero-2023.csv", "../data/Febrero-2023.csv", "../data/Marzo-Abril-2023.csv"}
 
 	file_unified := [][]string{}
 	for _, name := range files {
@@ -32,8 +32,8 @@ func ProcessFiles() {
 }
 
 func readFile(name string) ([]string, error) {
-	const format_date = "2006-01-02 15:04:05"
-	const format_date_unix = "2006/01/02 15:04:05"
+	const format_date_complete = "2006-01-02 15:04:05"
+	const format_date = "2006-01-02"
 	file, err := os.Open(name) // For read access.
 	line := ""
 	if err != nil {
@@ -46,127 +46,58 @@ func readFile(name string) ([]string, error) {
 
 	fileScanner.Split(bufio.ScanLines)
 
-	if name == "../data/Enero-2023.csv" {
-		line = "ID,IDCIUDAD,USUARIO,TELEFONOORIGEN,LATITUD,LATITUDDESTINO,LONGITUD,LONGITUDDESTINO,ESTADO,ORIGEN,FECHACOMPLETA,DIADESEMANA,HORA"
+	if name == "../data/Octubre-2022.csv" {
+		line = "ID,CITY,USER,LATITUDEORI,LATITUDEDEST,LONGITUDEORI,LONGITUDEDEST,STATUS,CHANNEL,COMPLETEDATE,DATE,DAYOFWEEK,HOUR,MONTH"
 		file_array = append(file_array, line)
 	}
 	fmt.Println("***************(", name, ")**********")
 	for fileScanner.Scan() {
 		arr_line := strings.Split(fileScanner.Text(), ",")
-		if name == "../data/Febrero-2023.csv" {
-			if len(arr_line) > 41 && arr_line[18] == "11001" {
-				for k, v := range arr_line {
-					if v == `"N` {
-						arr_line[k] = ""
-					}
-					arr_line[k] = strings.Replace(arr_line[k], `"`, ``, -1)
+		if len(arr_line) > 8 {
+			for k, v := range arr_line {
+				if v == `"N` {
+					arr_line[k] = ""
 				}
-				//Id
-				line = arr_line[0] + ","
-				//ciudad
-				line += arr_line[18] + ","
-				//usuario
-				line += arr_line[41] + ","
-				//telefono origen
-				//line += arr_line[37] + ","
-				line += arr_line[41] + ","
-				//Latitud
-				line += arr_line[22] + ","
-				//Latitud_destino
-				line += ","
-				//Longitud
-				line += arr_line[24] + ","
-				//Longitud_destino
-				line += ","
-				//Estado
-				line += arr_line[14] + ","
-				//Origen
-				line += arr_line[30] + ","
-
-				date, error := time.Parse(format_date, arr_line[16])
-
-				if error != nil {
-					fmt.Println(error)
-					fmt.Println(fileScanner.Text())
-					//Fecha_completa
-					line += "2006-01-02 15:04:05,"
-					//Dia_de_semana
-					line += "0,"
-					//Hora
-					line += "0"
-
-				}
-
-				//Fecha_completa
-				line += date.Format(format_date_unix) + ","
-				//Dia_de_semana
-				line += strconv.Itoa(int(date.Weekday())+1) + ","
-				//Hora
-				line += strconv.Itoa(date.Hour())
-
-				file_array = append(file_array, line)
-				//line := strings.Join(arr_line, ",")
-
+				arr_line[k] = strings.Replace(arr_line[k], `"`, ``, -1)
 			}
-		} else {
-			if len(arr_line) > 8 {
-				for k, v := range arr_line {
-					if v == `"N` {
-						arr_line[k] = ""
-					}
-					arr_line[k] = strings.Replace(arr_line[k], `"`, ``, -1)
-				}
-				//Id
-				line = arr_line[0] + ","
-				//ciudad
-				line += arr_line[1] + ","
-				//usuario
-				line += arr_line[2] + ","
-				//telefono origen
-				line += arr_line[2] + ","
-				//Latitud
-				line += arr_line[3] + ","
-				//Latitud_destino
-				line += arr_line[4] + ","
-				//Longitud
-				line += arr_line[5] + ","
-				//Longitud_destino
-				line += arr_line[6] + ","
-				//Estado
-				line += arr_line[7] + ","
-				//Origen
-				line += arr_line[8] + ","
-
-				date, error := time.Parse(format_date, arr_line[9])
-
-				if error != nil {
-					fmt.Println(error)
-					fmt.Println(fileScanner.Text())
-					//Fecha_completa
-					line += "2006-01-02 15:04:05,"
-					//Dia_de_semana
-					line += "0,"
-					//Hora
-					line += "0"
-
-				}
-
-				//Fecha_completa
-				line += date.Format(format_date_unix) + ","
+			//Id
+			line = arr_line[0] + ","
+			//City
+			line += arr_line[1] + ","
+			//User
+			line += arr_line[2] + ","
+			//Latitude_origin
+			line += arr_line[3] + ","
+			//Latitude_destination
+			line += arr_line[4] + ","
+			//Longitude_origin
+			line += arr_line[5] + ","
+			//Longitude_destination
+			line += arr_line[6] + ","
+			//Estatus
+			line += arr_line[7] + ","
+			//Channel
+			line += arr_line[8] + ","
+			date, error := time.Parse(format_date_complete, arr_line[9])
+			if error != nil {
+				fmt.Println(error)
+				fmt.Println(fileScanner.Text())
+			} else {
+				//Complite_date
+				line += date.Format(format_date_complete) + ","
+				//Date
+				line += date.Format(format_date) + ","
 				//Dia_de_semana
 				line += strconv.Itoa(int(date.Weekday())+1) + ","
-				//Hora
-				line += strconv.Itoa(date.Hour())
-
+				//Hour
+				line += strconv.Itoa(date.Hour()) + ","
+				//Month
+				line += strconv.Itoa(int(date.Month()))
 				file_array = append(file_array, line)
-				//line := strings.Join(arr_line, ",")
-
 			}
 		}
 	}
-
 	fmt.Printf("File %v procesed successfully!\n", name)
-
 	return file_array, nil
 }
 
