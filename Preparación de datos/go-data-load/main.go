@@ -88,7 +88,7 @@ func readFile(name string) ([]string, error) {
 				//Date
 				line += date.Format(format_date) + ","
 				//Dia_de_semana
-				line += strconv.Itoa(int(date.Weekday())+1) + ","
+				line += strconv.Itoa(changeDayOfWeek(int(date.Weekday())+1)) + ","
 				//Hour
 				line += strconv.Itoa(date.Hour()) + ","
 				//Month
@@ -99,6 +99,25 @@ func readFile(name string) ([]string, error) {
 	}
 	fmt.Printf("File %v procesed successfully!\n", name)
 	return file_array, nil
+}
+
+func changeDayOfWeek(week int) int {
+	switch day := week; day {
+	case 1:
+		return 7
+	case 2:
+		return 1
+	case 3:
+		return 2
+	case 4:
+		return 3
+	case 5:
+		return 4
+	case 6:
+		return 5
+	default:
+		return 6
+	}
 }
 
 func writerFile(name string, serv [][]string) {
