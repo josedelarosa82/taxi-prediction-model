@@ -16,6 +16,7 @@ func main() {
 }
 
 func ProcessFiles() {
+	fmt.Println("***Start process**")
 	name_unified := "../data/SERVICIO_UNIFICADO_2023.csv"
 	files := []string{"../data/Octubre-2022.csv", "../data/Noviembre-2022.csv", "../data/Diciembre-2022.csv", "../data/Enero-2023.csv", "../data/Febrero-2023.csv", "../data/Marzo-Abril-2023.csv"}
 
@@ -28,12 +29,14 @@ func ProcessFiles() {
 		file_unified = append(file_unified, csvLines)
 	}
 	writerFile(name_unified, file_unified)
+	fmt.Println("***Finish process**")
 
 }
 
 func readFile(name string) ([]string, error) {
 	const format_date_complete = "2006-01-02 15:04:05"
 	const format_date = "2006-01-02"
+	sw := true
 	file, err := os.Open(name) // For read access.
 	line := ""
 	if err != nil {
@@ -83,6 +86,15 @@ func readFile(name string) ([]string, error) {
 				fmt.Println(error)
 				fmt.Println(fileScanner.Text())
 			} else {
+				if sw {
+					fmt.Println("Before time (", date, ")")
+				}
+				//Se convierte a horario de colombia
+				date := date.Add(time.Hour * -5)
+				if sw {
+					fmt.Println("After time (", date, ")")
+					sw = false
+				}
 				//Complite_date
 				line += date.Format(format_date_complete) + ","
 				//Date
